@@ -1,4 +1,5 @@
-#!bin/bash
+#!/bin/bash
+sudo apt-get -y install libreadline7 libreadline7-dev
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o simpleshell && ./simpleshell
 
 TEmPo=$HOME/bin

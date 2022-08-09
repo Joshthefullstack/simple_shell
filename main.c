@@ -1,5 +1,6 @@
 #include "shell.h"
 
+
 /**
  * init_myShell - Shows intro to shell
  * 
@@ -35,20 +36,37 @@ void init_myShell()
 }
 
 
-
-
 /**
  * main - psimple shell program to print hello world.
  * argc: number of argument
  * argv: argument vector
  * Return: 0
  */
-int main(int argc, char *[argv])
+int main(int argc, char **argv, char **env)
 {
-	init_myShell();
-	while
+	(void)argc;
+	(void)argv;
+	int command_line_no = 0, exit_stat = 0, init = 0;
+	char *buffer;
+
+	buffer = malloc(COMMAND_BUF_SIZE * sizeof(char));
+	if (buffer == NULL)
+		return (1);
+	while(1)
 	{
+		command_line_no++;
+		if(isatty(STDIN_FILENO))
+		{
+			if (init == 0)
+			{
+				init_myShell();
+				init = 1;
+			}
+			printPrompt(buffer, env);
+		}
+		else
+			non_interactive(env);
 		printf("hello world\n");
-		return (0);
 	}
+	return (0);
 }
