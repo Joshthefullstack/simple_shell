@@ -46,7 +46,7 @@ int main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	int command_line_no = 0, exit_stat = 0, init = 0;
+	int command_line_no = 0, init = 0;
 	char *buffer;
 
 	buffer = malloc(COMMAND_BUF_SIZE * sizeof(char));
