@@ -3,10 +3,10 @@
 
 /**
  * init_myShell - Shows intro to shell
- * 
+ *
  * Return: void
  */
-void init_myShell()
+void init_myShell(void)
 {
 	int i = 0;
 
@@ -21,7 +21,7 @@ void init_myShell()
 	printf("\t\tlogging in.");
 	fflush(stdout);
 	sleep(1);
-	while (i < 3)
+	while (i < 1)
 	{
 		printf(".");
 		fflush(stdout);
@@ -37,36 +37,25 @@ void init_myShell()
 
 
 /**
- * main - psimple shell program to print hello world.
- * argc: number of argument
- * argv: argument vector
+ * main - simple shell program
  * Return: 0
  */
-int main(int argc, char **argv, char **env)
+int main(void)
 {
-	(void)argc;
-	(void)argv;
-	int command_line_no = 0, init = 0;
-	char *buffer;
+	/* env_ptr env; */
+	size_t bufsize = COMMAND_BUF_SIZE;
+	char *cmdLine = NULL;
 
-	buffer = malloc(COMMAND_BUF_SIZE * sizeof(char));
-	if (buffer == NULL)
-		return (1);
-	while(1)
+	init_myShell();
+	/* env = createEnvLinkedList(envr); */
+	while (1)
 	{
-		command_line_no++;
-		if(isatty(STDIN_FILENO))
-		{
-			if (init == 0)
-			{
-				init_myShell();
-				init = 1;
-			}
-			printPrompt(buffer, env);
-		}
-		else
-			non_interactive(env);
-		printf("hello world\n");
+		/* int childPid; */
+		printPrompt();
+		getline(&cmdLine, &bufsize, stdin);
+		
 	}
+	/* free_linked_list(env); */
+	free(cmdLine);
 	return (0);
 }
