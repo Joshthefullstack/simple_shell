@@ -32,7 +32,7 @@ void init_myShell(void)
 	printf("\b\b\b\b\b\b\b\b\b\b\b\b\b\bLogged in as %s\n\n", getenv("USER"));
 	printf("\n*************************************************************");
 	printf("\n\n");
-	sleep(1);
+	fflush(stdout);
 }
 
 
@@ -42,20 +42,38 @@ void init_myShell(void)
  */
 int main(void)
 {
-	/* env_ptr env; */
-	size_t bufsize = COMMAND_BUF_SIZE;
-	char *cmdLine = NULL;
+	char *cmdLine;
+	char **argv;
+	int status;
 
 	init_myShell();
-	/* env = createEnvLinkedList(envr); */
 	while (1)
 	{
-		/* int childPid; */
 		printPrompt();
-		getline(&cmdLine, &bufsize, stdin);
-		
+		cmdLine = read_line();
+		argv = tokenizer(cmdLine);
+
+		if (strcmp(cmdLine, "exit") == 0)
+		{
+			if (argv[1])
+			{
+				status = atoi(argv[1]);
+				free(argv);
+				free(cmdLine);
+				exit(status);
+			}
+			free(cmdLine);
+			free(argv);
+			exit(EXIT_SUCCESS);
+		}
+		if (strcmp(cmdLine, "env") == 0)
+		{
+			_print_env();
+		}
+
+		execute_cmd(argv, cmdLine);
+
 	}
-	/* free_linked_list(env); */
 	free(cmdLine);
 	return (0);
 }

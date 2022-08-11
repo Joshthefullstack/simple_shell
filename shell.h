@@ -2,45 +2,30 @@
 #define SHELL_H
 
 /* Preprocessor commands */
-#include <stdio.h> /* printf, getline */
-#include <stdlib.h> /* malloc, free, getenv */
-#include <unistd.h>/* write, sleep */
+#include <stdio.h>     /* printf, getline */
+#include <stdlib.h>    /* malloc, free, getenv */
+#include <unistd.h>    /* write, sleep */
 #include <sys/types.h>
-#include <string.h>
+#include <string.h>    /* strcpy */
 #include <signal.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
 #define COMMAND_BUF_SIZE 100
-
 #define clear() printf("\033[H\033[J")
+#define DELIMITER "\n\t\r\a "
+#define EXIT_FAILURE    1       /* Failing exit status.  */
+#define EXIT_SUCCESS    0       /* Successful exit status.  */
 
-
-/**
- * struct list - linked list for environmental variables
- * @var: holds environmental variable string
- * @next: points to next node
- */
-typedef struct list
-{
-	char *var;
-	struct list *next;
-} env_node, * env_ptr;
+extern char **environ;
 
 /* function prototypes */
-void printPrompt(char *str, char **env);
-int handle_tokens(char ** tokens);
-char **getTokens(char *str);
+void printPrompt(void);
 int getString(char *str);
-env_ptr createEnvLinkedList(char **env);
-env_ptr add_end_node(env_ptr *head, char *str);
-char *add_history(char *str);
-char *up_history(char *str);
-char *down_history(char *str);
-void non_interactive(char **env);
+char *read_line(void);
+char **tokenizer(char *str);
+int execute_cmd(char **argv, char *cmdLine);
+int _print_env(void);
+int get_path(char **tokens);
 
-/* Helper Functions*/
-char * _strdup(char *str);
-char getche(void);
-char getch(void);
-
-
-
+char *build_path(char *token, char *value);
 #endif
