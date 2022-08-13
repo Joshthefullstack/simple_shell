@@ -1,7 +1,7 @@
 #include"shell.h"
 
 /**
- * func_echo - a function to print implement echo command
+ * func_echo - a function to implement echo command
  * 
  *
  * Return: 0
