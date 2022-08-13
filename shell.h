@@ -10,22 +10,27 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <sys/types.h> /* pid_t */
+#include <ctype.h>
 #define COMMAND_BUF_SIZE 100
 #define clear() printf("\033[H\033[J")
-#define DELIMITER "\n\t\r\a "
+#define DELIMITER "\n\t\r "
 #define EXIT_FAILURE    1       /* Failing exit status.  */
 #define EXIT_SUCCESS    0       /* Successful exit status.  */
 
 extern char **environ;
 
+typedef struct command
+{
+	char **argv;
+	size_t argc;
+} cmd_t; 
+
 /* function prototypes */
 void printPrompt(void);
-int getString(char *str);
 char *read_line(void);
-char **tokenizer(char *str);
-int execute_cmd(char **argv, char *cmdLine);
-int _print_env(void);
-int get_path(char **tokens);
+cmd_t parse_command(char *str);
+int handle_command(cmd_t command, char *command_buf);
 
 char *build_path(char *token, char *value);
 #endif

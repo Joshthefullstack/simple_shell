@@ -13,9 +13,10 @@ char *read_line(void)
 
 	length = 0;
 	line = NULL;
+	signal(SIGINT, SIG_DFL);
 	if (getline(&line, &length, stdin) == -1)
 	{
-		printf("\n[Exiting]\n");
+		perror("Error reading line\n");
 		free(line);
 		exit(EXIT_SUCCESS);
 	}
